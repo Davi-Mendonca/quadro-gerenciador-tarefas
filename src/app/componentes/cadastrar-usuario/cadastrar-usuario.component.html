@@ -1,1 +1,35 @@
-<p>cadastrar-usuario works!</p>
+<div class="container form-box">
+  <div class="">
+    <div class="text-center mb-6">
+      <h2 class="h2">Cadastrar usuário</h2>
+    </div>
+    <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label class="form-label" for="input-nome">Nome</label>
+            <input id="input-nome" class="form-control" type="text" name="nome" ngModel required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-email">Email</label>
+            <input id="input-email" class="form-control" type="text" name="email" ngModel required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-telefone">Telefone</label>
+            <input id="input-telefone" class="form-control" type="text" name="telefone" ngModel required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="input-senha">Senha</label>
+            <input id="input-senha" class="form-control" type="text" name="senha" ngModel required/>
+          </div>
+          <div class="text-center">
+            <div class="">
+              <button class="m-5 btn btn-default">Cancelar</button>
+              <button class="m-5 btn btn-primary" type="submit">Cadastrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

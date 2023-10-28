@@ -8,6 +8,9 @@ import { QuadroComponent } from './componentes/quadro/quadro.component';
 import { ColunaComponent } from './componentes/coluna/coluna.component';
 import { TarefaComponent } from './componentes/tarefa/tarefa.component';
 import { CadastrarUsuarioComponent } from './componentes/cadastrar-usuario/cadastrar-usuario.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './componentes/login/login.component';
 
 @NgModule({
   declarations: [
@@ -16,11 +19,14 @@ import { CadastrarUsuarioComponent } from './componentes/cadastrar-usuario/cadas
     QuadroComponent,
     ColunaComponent,
     TarefaComponent,
-    CadastrarUsuarioComponent
+    CadastrarUsuarioComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
