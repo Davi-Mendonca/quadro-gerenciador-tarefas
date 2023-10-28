@@ -1,3 +1,4 @@
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -11,6 +12,8 @@ import { CadastrarUsuarioComponent } from './componentes/cadastrar-usuario/cadas
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './componentes/login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SenhaIncorretaModalComponent } from './componentes/modais/senha-incorreta-modal/senha-incorreta-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,13 +23,16 @@ import { LoginComponent } from './componentes/login/login.component';
     ColunaComponent,
     TarefaComponent,
     CadastrarUsuarioComponent,
-    LoginComponent
+    LoginComponent,
+    SenhaIncorretaModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
