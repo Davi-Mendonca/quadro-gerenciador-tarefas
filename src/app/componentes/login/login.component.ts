@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GerenciadorTarefasService } from 'src/app/service/gerenciador-tarefas.service';
 import { SenhaIncorretaModalComponent } from '../modais/senha-incorreta-modal/senha-incorreta-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { UsuarioInexistenteModalComponent } from '../modais/usuario-inexistente-modal/usuario-inexistente-modal.component';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class LoginComponent implements OnInit {
   constructor(
     private service: GerenciadorTarefasService,
-    public dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -19,15 +22,33 @@ export class LoginComponent implements OnInit {
   async onSubmit(formulario: any) {
     return await this.service
       .login(formulario.value.email, formulario.value.senha)
+      .then((response) => {
+        if(response['id']) {
+          this.router.navigate(["/home"]);
+        }
+      })
       .catch((error) => {
-        if (error.status == 403) {
-          this.exibirModal();
-          console.log(error)
+        switch (error.status) {
+          case 403:
+            this.exibirModalSenhaIncorreta();
+            break;
+          case 404:
+            this.exibirModalUsuarioInexistente();
+            break;
         }
       });
   }
 
-  exibirModal() {
-    this.dialog.open(SenhaIncorretaModalComponent)
+  exibirModalSenhaIncorreta() {
+    this.dialog.open(SenhaIncorretaModalComponent);
+  }
+
+  exibirModalUsuarioInexistente() {
+    const dialogRef = this.dialog.open(UsuarioInexistenteModalComponent);
+    dialogRef.afterClosed().subscribe((resposta: boolean) => {
+      if (resposta == true) {
+        this.router.navigate(["/cadastrar-usuario"])
+      }
+    });
   }
 }

@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Usuário não cadastrado</h1>
+<div mat-dialog-content>
+  Deseja realizar seu cadastro ?
+</div>
+<div mat-dialog-actions>
+  <div class="text-center">
+    <button class="btn btn-default m-2" mat-button mat-dialog-close (click)="seguirParaCadastro(false)">Não</button>
+    <button class="btn btn-primary m-2" mat-button mat-dialog-close cdkFocusInitial (click)="seguirParaCadastro(true)">Sim</button>
+  </div>
+</div>

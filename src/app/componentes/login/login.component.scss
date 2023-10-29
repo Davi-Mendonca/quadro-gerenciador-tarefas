@@ -32,3 +32,18 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.ng-invalid.ng-touched:not(form) {
+  border: 1px solid red;
+}
+
+.campo-obrigatorio {
+  color: red;
+  font-size: small;
+  margin-top: 5px;
+  position: absolute;
+}
+
+.login-input {
+  margin: 30px 0px;
+}
