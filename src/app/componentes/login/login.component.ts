@@ -4,6 +4,9 @@ import { SenhaIncorretaModalComponent } from '../modais/senha-incorreta-modal/se
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UsuarioInexistenteModalComponent } from '../modais/usuario-inexistente-modal/usuario-inexistente-modal.component';
+import { AppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
+import * as UsuarioActions from '../../store/action/usuarioLogado.actions'
 
 @Component({
   selector: 'app-login',
@@ -14,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private service: GerenciadorTarefasService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {}
@@ -25,6 +29,7 @@ export class LoginComponent implements OnInit {
       .then((response) => {
         if(response['id']) {
           this.router.navigate(["/home"]);
+          this.store.dispatch(UsuarioActions.login({ usuario: response}))
         }
       })
       .catch((error) => {

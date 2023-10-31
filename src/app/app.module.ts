@@ -15,6 +15,8 @@ import { LoginComponent } from './componentes/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SenhaIncorretaModalComponent } from './componentes/modais/senha-incorreta-modal/senha-incorreta-modal.component';
 import { UsuarioInexistenteModalComponent } from './componentes/modais/usuario-inexistente-modal/usuario-inexistente-modal.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/app.reducer';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { UsuarioInexistenteModalComponent } from './componentes/modais/usuario-i
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    StoreModule.forRoot(reducers)
   ],
   providers: [],
   bootstrap: [AppComponent]
