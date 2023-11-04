@@ -17,6 +17,10 @@ import { SenhaIncorretaModalComponent } from './componentes/modais/senha-incorre
 import { UsuarioInexistenteModalComponent } from './componentes/modais/usuario-inexistente-modal/usuario-inexistente-modal.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/app.reducer';
+import { NomeNovoElementoModalComponent } from './componentes/modais/nome-novo-elemento-modal/nome-novo-elemento-modal.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,8 @@ import { reducers } from './store/app.reducer';
     CadastrarUsuarioComponent,
     LoginComponent,
     SenhaIncorretaModalComponent,
-    UsuarioInexistenteModalComponent
+    UsuarioInexistenteModalComponent,
+    NomeNovoElementoModalComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +42,9 @@ import { reducers } from './store/app.reducer';
     HttpClientModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTabsModule,
     StoreModule.forRoot(reducers)
   ],
   providers: [],

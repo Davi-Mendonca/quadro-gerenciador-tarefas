@@ -44,7 +44,15 @@ export class GerenciadorTarefasService {
   async cadastrarQuadro(data: any) {
     return await firstValueFrom(this.http.post<any>("http://localhost:3000/quadros", data))
       .then((response) => {
-        console.log('quadro: ', response)
+        return response;
+      }).catch((error) => {
+        throw error;
+      })
+  }
+
+  async cadastrarColuna(data: any) {
+    return await firstValueFrom(this.http.post<any>("http://localhost:3000/colunas", data))
+      .then((response) => {
         return response;
       }).catch((error) => {
         throw error;

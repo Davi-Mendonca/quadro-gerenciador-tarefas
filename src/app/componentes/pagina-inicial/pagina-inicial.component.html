@@ -1,14 +1,27 @@
 <body>
-  <section class="root">
-    <div class="navbar has-background-dark">
-      <div class="navbar-brand">
-        <div class="navbar-item">
-          <h1 class="app-name has-gradient-text">Quadro gerenciador de tarefas</h1>
-          <button class="btn" (click)="novoQuadro()">Novo</button>
+  <section>
+    <div class="menu-bar">
+      <div class="menu-bar-title">
+          <h1 class="menu-bar-title">Olá, {{ pegarPrimeiroNome() }}</h1>
+      </div>
+      <div class="menu-bar-buttons">
+        <div class="main_action_button">
+          <button mat-button class="" (click)="novoQuadro()">Novo quadro</button>
+          <button mat-button class="" (click)="novoQuadro()">Nova coluna</button>
+          <button mat-button class="" (click)="novoQuadro()">Nova tarefa</button>
         </div>
       </div>
     </div>
-    <!-- <app-quadro></app-quadro> -->
+    <mat-tab-group>
+      <mat-tab *ngFor="let quadro of usuarioLogado?.quadros" label='{{ quadro.nome }}'>
+        <div class="board">
+          <div class="board-wrapper">
+            <div class="board-columns">
+              <app-coluna *ngFor="let coluna of quadro.colunas"></app-coluna>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </section>
 </body>
-

@@ -1,3 +1,71 @@
 body {
-  background-color: rgba($color: #2a47eb, $alpha: 1.0);
+  background-color: rgba($color: #474747, $alpha: 1.0);
+}
+
+.main_action_button {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.menu-bar {
+  display: flex;
+  background-color: hsl(0, 0%, 21%);
+  height: 50px;
+  width: 100%;
+  padding: 0 50px;
+  position: relative;
+}
+
+.menu-bar-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-bar-buttons {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.menu-bar-title {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.btn {
+  background-color: rgba($color: #585858, $alpha: 1.0);
+  color: rgba(255, 255, 255, 0.6);
+}
+//------------------
+.board {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  // Override automatic minimum size
+  min-width: 0;
+  min-height: 0;
+
+  .board-bar {
+    background: rgba(gray, 0.5);
+    padding: 8px 15px;
+    .board-name {
+      font-size: 20px;
+      font-weight: boldl;
+      color: white;
+    }
+  }
+
+  .board-wrapper {
+    display: flex;
+    flex-grow: 1;
+    overflow-x: auto;
+
+    .board-columns {
+      display: flex;
+      flex-grow: 1;
+    }
+  }
 }
