@@ -1,7 +1,11 @@
-<div class="board" *ngFor="let quadro of usuarioLogado?.quadros">
-  <div class="board-wrapper">
-    <div class="board-columns">
-      <app-coluna *ngFor="let coluna of quadro.colunas"></app-coluna>
+<mat-tab-group animationMode="none" (selectedTabChange)="onTabChange()">
+  <mat-tab *ngFor="let quadro of usuarioLogado?.quadros" label='{{ quadro.nome }}'>
+    <div class="board" [id]="quadro.id">
+      <div class="board-wrapper">
+        <div class="board-columns">
+          <app-coluna *ngFor="let coluna of quadro.colunas" [nomeColuna]="coluna.nome" [tarefas]="coluna.tarefas"></app-coluna>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  </mat-tab>
+</mat-tab-group>

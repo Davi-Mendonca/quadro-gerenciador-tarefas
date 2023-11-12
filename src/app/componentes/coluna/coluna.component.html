@@ -1,8 +1,6 @@
 <div class="board-column" [ngStyle]="{'margin-left': primeiroFilho ? '50px' : 0}">
   <div class="column-title">
-    <h2>{{primeiroFilho}}</h2>
+    <h2>{{nomeColuna}}</h2>
   </div>
-  <app-tarefa></app-tarefa>
-  <app-tarefa></app-tarefa>
-  <app-tarefa></app-tarefa>
+  <app-tarefa *ngFor="let tarefa of tarefas" [titulo]="tarefa.titulo" [descricao]="tarefa.descricao"></app-tarefa>
 </div>

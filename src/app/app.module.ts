@@ -21,6 +21,15 @@ import { NomeNovoElementoModalComponent } from './componentes/modais/nome-novo-e
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSelectModule } from '@angular/material/select';
+import { NovaTarefaModalComponent } from './componentes/modais/nova-tarefa-modal/nova-tarefa-modal.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +42,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     LoginComponent,
     SenhaIncorretaModalComponent,
     UsuarioInexistenteModalComponent,
-    NomeNovoElementoModalComponent
+    NomeNovoElementoModalComponent,
+    NovaTarefaModalComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +55,14 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatFormFieldModule,
     MatInputModule,
     MatTabsModule,
-    StoreModule.forRoot(reducers)
+    MatButtonModule,
+    StoreModule.forRoot(reducers),
+    MatToolbarModule,
+    MatCardModule,
+    MatDividerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

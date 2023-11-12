@@ -3,7 +3,8 @@
   flex-direction: column;
   flex-grow: 1;
 
-  // Override automatic minimum size
+  margin-top: 20px;
+
   min-width: 0;
   min-height: 0;
 
@@ -20,11 +21,27 @@
   .board-wrapper {
     display: flex;
     flex-grow: 1;
-    overflow-x: auto;
 
     .board-columns {
       display: flex;
       flex-grow: 1;
+      // overflow-x: auto;
+      // white-space: nowrap;
+
+      // .board-columns::-webkit-scrollbar {
+      //   height: 12px !important;
+      // }
+
+      // .board-columns::-webkit-scrollbar-thumb {
+      //   background-color: #6a6a6a;
+      //   border-radius: 6px;
+      // }
+
+      // .board-columns::-webkit-scrollbar-track {
+      //   background-color: #f1f1f1;
+      //   border-radius: 6px;
+      // }
     }
+
   }
 }

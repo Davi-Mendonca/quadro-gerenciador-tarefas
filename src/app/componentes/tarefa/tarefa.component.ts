@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tarefa',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./tarefa.component.scss']
 })
 export class TarefaComponent {
-
+  @Input() titulo?: string
+  @Input() descricao?: string
+  @Input() dataParaConclusao?: Date
+  @Input() nivelPrioridade?: number
+  @Input() idColuna?: string
 }

@@ -1,0 +1,20 @@
+.form-input>input{
+    width: 300px;
+    height: 45px;
+}
+
+.form-box {
+  display: grid;
+  width: 350px;
+}
+
+.align-buttons {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.modal-title {
+  text-align: center;
+  margin: 15px;
+}

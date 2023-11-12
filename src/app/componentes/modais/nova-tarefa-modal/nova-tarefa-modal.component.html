@@ -1,0 +1,33 @@
+<div mat-dialog-content>
+  <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)">
+    <div class="modal-title">
+      <h1>Cadastrar tarefa</h1>
+    </div>
+    <div class="form-box">
+      <mat-form-field class="form-input">
+        <mat-label>Título</mat-label>
+        <input type="text" matInput placeholder="Título para a tarefa" name="titulo" ngModel required>
+      </mat-form-field>
+      <mat-form-field class="form-input">
+        <mat-label>Descrição</mat-label>
+        <input type="text" matInput placeholder="Descrição para a tarefa" name="descricao" ngModel required>
+      </mat-form-field>
+      <mat-form-field class="form-input">
+        <label class="form-label" for="input-data-conclusao">Data para Conclusão</label>
+        <input matInput [matDatepicker]="picker" type="text" placeholder="dd/mm/aaaa" name="dataParaConclusao" ngModel required>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker ></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="form-input">
+        <mat-label>Nível de prioridade</mat-label>
+        <mat-select [(ngModel)]="selectedValue" name="nivelPrioridade">
+            <mat-option *ngFor="let opt of options" [value]="opt.value">{{opt.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="align-buttons">
+        <button mat-raised-button class="m-5" color="accent" (click)="onNoClick()">Cancelar</button>
+        <button mat-raised-button class="m-5" color="primary" type="submit" [mat-dialog-close]>Criar</button>
+      </div>
+    </div>
+  </form>
+</div>

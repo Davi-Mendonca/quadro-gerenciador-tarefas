@@ -4,7 +4,8 @@
   flex-grow: 1;
   flex-basis: 0; // to force the columns to all bo the same size, regardless of content
 
-  min-width: 300px;
+  height: 750px;
+  width: 300px;
   margin: 50px;
   padding: 25px;
 
@@ -16,7 +17,6 @@
     font-size: 20px;
     font-weight: 800;
     font-family: "Lato", sans-serif;
-    text-transform: uppercase;
     margin-bottom: 20px;
   }
 }

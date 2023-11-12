@@ -1,6 +1,5 @@
-import { Component, ElementRef } from '@angular/core';
-
-
+import { Component, ElementRef, Input } from '@angular/core';
+import { Tarefa } from 'src/app/models/Tarefa.model';
 
 @Component({
   selector: 'app-coluna',
@@ -8,17 +7,18 @@ import { Component, ElementRef } from '@angular/core';
   styleUrls: ['./coluna.component.scss']
 })
 export class ColunaComponent {
+  primeiroFilho: boolean = false
+  @Input() nomeColuna?: string = '';
+  @Input() tarefas: Tarefa[] | undefined
 
   constructor(private el: ElementRef) {}
 
-  primeiroFilho: boolean = false
 
   ngAfterViewInit() {
 
     const nativeElement = this.el.nativeElement;
 
     this.primeiroFilho = nativeElement.parentElement.firstChild === nativeElement;
-    console.log(this.primeiroFilho)
   }
 
 }

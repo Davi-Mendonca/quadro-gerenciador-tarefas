@@ -34,28 +34,31 @@ export class GerenciadorTarefasService {
     }
     return await firstValueFrom(this.http.post<any>("http://localhost:3000/login", data))
       .then((response) => {
-        console.log(response);
         return response;
       }).catch((error) => {
         throw error;
       })
   }
 
-  async cadastrarQuadro(data: any) {
-    return await firstValueFrom(this.http.post<any>("http://localhost:3000/quadros", data))
-      .then((response) => {
-        return response;
-      }).catch((error) => {
-        throw error;
-      })
+  cadastrarQuadro(data: any): Observable<any> {
+    return this.http.post<any>("http://localhost:3000/quadros", data);
+      // .then((response) => {
+      //   return response;
+      // }).catch((error) => {
+      //   throw error;
+      // })
   }
 
-  async cadastrarColuna(data: any) {
-    return await firstValueFrom(this.http.post<any>("http://localhost:3000/colunas", data))
-      .then((response) => {
-        return response;
-      }).catch((error) => {
-        throw error;
-      })
+  cadastrarColuna(data: any): Observable<any> {
+    return this.http.post<any>("http://localhost:3000/colunas", data);
+      // .then((response) => {
+      //   return response;
+      // }).catch((error) => {
+      //   throw error;
+      // })
+  }
+
+  cadastrarTarefa(data: any): Observable<any> {
+    return this.http.post<any>("http://localhost:3000/tarefas", data);
   }
 }

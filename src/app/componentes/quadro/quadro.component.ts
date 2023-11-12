@@ -1,23 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { UsuarioLogado } from 'src/app/models/UsuarioLogado.model';
 import { AppState } from 'src/app/store/app.reducer';
+import { GerenciadorTarefasService } from 'src/app/service/gerenciador-tarefas.service';
+import { MatDialog } from '@angular/material/dialog';
+import * as UsuarioActions from '../../store/action/usuarioLogado.actions'
 
 @Component({
   selector: 'app-quadro',
   templateUrl: './quadro.component.html',
   styleUrls: ['./quadro.component.scss']
 })
-export class QuadroComponent implements OnInit{
+export class QuadroComponent implements OnInit {
   usuarioLogado: UsuarioLogado | null = null;
+  nomeNovaColuna: string = "";
+  @Input() abaAtiva: any;
+  @Input() quadroAtivo: any;
 
-  constructor(private store: Store<AppState>){}
+  constructor(
+    private service: GerenciadorTarefasService,
+    private store: Store<AppState>,
+    private dialog: MatDialog,
+  ){}
 
   ngOnInit(): void {
     this.store.pipe(select(state => state.usuarioLogado))
       .subscribe((usuario) => {
-        console.log('Usuario atualizado:', usuario);
         this.usuarioLogado = usuario;
       })
+  }
+
+  onTabChange() {
+    let abaAtiva = document.querySelectorAll('.mat-mdc-tab-body-wrapper .board')[0].getAttribute('id');
+    if (abaAtiva) {
+      this.store.dispatch(UsuarioActions.quadroAtivo({quadroAtivo: abaAtiva}));
+    }
   }
 }

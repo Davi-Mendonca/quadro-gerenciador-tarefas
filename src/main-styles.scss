@@ -14,12 +14,9 @@ $input-shadow: none;
 /* Global Styles */
 html, body {
   height: 100%;
-
 }
 
 html {
-  background-image: url('./assets/background-photo.jpeg');
-  background-size: cover;
-
-  overflow-y: auto !important;
+  overflow-y: hidden !important;
+  // overflow-x: auto !important;
 }
