@@ -13,8 +13,9 @@
   width: 400px;
   height: 380px;
   padding: 25px;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: #474747;
   border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.55) 0px 5px 15px;
 }
 
 .login-container {
@@ -33,17 +34,10 @@ body {
   align-items: center;
 }
 
-.ng-invalid.ng-touched:not(form) {
-  border: 1px solid red;
-}
-
-.campo-obrigatorio {
-  color: red;
-  font-size: small;
-  margin-top: 5px;
-  position: absolute;
-}
-
 .login-input {
   margin: 30px 0px;
+}
+
+.form-input {
+  width: 100%;
 }

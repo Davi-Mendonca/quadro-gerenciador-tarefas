@@ -13,14 +13,28 @@
 
   background: rgba(white, 0.4);
 
-  .column-title {
-    font-size: 20px;
-    font-weight: 800;
-    font-family: "Lato", sans-serif;
-    margin-bottom: 20px;
-  }
+}
+.column-title {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: "Lato", sans-serif;
+  margin-bottom: 20px;
+}
+
+.taks-container {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.taks-container::-webkit-scrollbar {
+  width: 0;
 }
 
 .primeiro-filho {
   margin-left: 0;
+}
+
+.title-box {
+
 }

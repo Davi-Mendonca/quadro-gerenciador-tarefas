@@ -1,6 +1,7 @@
 import { Usuario } from './../../models/usuario.model';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { GerenciadorTarefasService } from 'src/app/service/gerenciador-tarefas.service';
 
 @Component({
@@ -10,7 +11,10 @@ import { GerenciadorTarefasService } from 'src/app/service/gerenciador-tarefas.s
 })
 export class CadastrarUsuarioComponent implements OnInit{
 
-  constructor(private service: GerenciadorTarefasService){}
+  constructor(
+    private service: GerenciadorTarefasService,
+    private router: Router
+  ){}
 
   ngOnInit(){}
 
@@ -26,5 +30,9 @@ export class CadastrarUsuarioComponent implements OnInit{
     let result = this.service.cadastrarUsuario(usuario);
 
     console.log('response: ', result)
+  }
+
+  telaLogin() {
+    this.router.navigate(['login']);
   }
 }

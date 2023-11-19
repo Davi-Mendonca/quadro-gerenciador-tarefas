@@ -29,6 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NovaTarefaModalComponent } from './componentes/modais/nova-tarefa-modal/nova-tarefa-modal.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

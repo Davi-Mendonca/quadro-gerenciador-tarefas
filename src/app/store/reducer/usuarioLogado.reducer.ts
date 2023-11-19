@@ -43,7 +43,11 @@ const usuarioLogadoReducer = createReducer(
       return quadro;
     });
     return {...state, quadros: quadrosAtualizados};
-  })
+  }),
+
+  // on(UsuarioActions.atualizarTarefa, (state, {quadroAtual, colunaSaida, colunaEntrada, tarefa}) => {
+  //   const quadrosAtualizados = state.quadros
+  // })
 );
 
 export function usuarioReducer(state: any, action: any) {

@@ -10,5 +10,5 @@ export class TarefaComponent {
   @Input() descricao?: string
   @Input() dataParaConclusao?: Date
   @Input() nivelPrioridade?: number
-  @Input() idColuna?: string
+  @Input() idTarefa?: string
 }

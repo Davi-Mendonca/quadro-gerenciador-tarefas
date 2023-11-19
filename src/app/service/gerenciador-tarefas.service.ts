@@ -42,23 +42,24 @@ export class GerenciadorTarefasService {
 
   cadastrarQuadro(data: any): Observable<any> {
     return this.http.post<any>("http://localhost:3000/quadros", data);
-      // .then((response) => {
-      //   return response;
-      // }).catch((error) => {
-      //   throw error;
-      // })
   }
 
   cadastrarColuna(data: any): Observable<any> {
     return this.http.post<any>("http://localhost:3000/colunas", data);
-      // .then((response) => {
-      //   return response;
-      // }).catch((error) => {
-      //   throw error;
-      // })
   }
 
   cadastrarTarefa(data: any): Observable<any> {
     return this.http.post<any>("http://localhost:3000/tarefas", data);
+  }
+
+  movertarefa() {
+
+  }
+
+  atualizarTarefa(colunaEntrada: string, tarefa: string): Observable<any> {
+    let data = {
+      idColuna: colunaEntrada
+    }
+    return this.http.patch<any>("http://localhost:3000/tarefas/".concat(tarefa), data)
   }
 }

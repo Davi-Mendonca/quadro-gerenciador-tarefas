@@ -10,11 +10,11 @@ export class Coluna {
     id: string,
     nome: string,
     idQuadro: string,
-    tarefas: Tarefa[]
+    tarefas?: Tarefa[]
   ){
     this.id = id;
     this.nome = nome;
     this.idQuadro = idQuadro;
-    this.tarefas = tarefas;
+    this.tarefas = tarefas || [];
   }
 }

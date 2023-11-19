@@ -5,6 +5,7 @@ import { CadastrarUsuarioComponent } from './componentes/cadastrar-usuario/cadas
 import { LoginComponent } from './componentes/login/login.component';
 
 const routes: Routes = [
+  {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'home', component: PaginaInicialComponent},
   {path: 'cadastrar-usuario', component: CadastrarUsuarioComponent}

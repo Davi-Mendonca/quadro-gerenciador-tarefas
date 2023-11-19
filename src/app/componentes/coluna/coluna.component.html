@@ -1,6 +1,10 @@
-<div class="board-column" [ngStyle]="{'margin-left': primeiroFilho ? '50px' : 0}">
-  <div class="column-title">
-    <h2>{{nomeColuna}}</h2>
+<div class="board-column" [ngStyle]="{ 'margin-left': primeiroFilho ? '50px' : 0 }" >
+  <div class="title-box">
+    <div class="column-title">
+      <h2>{{ nomeColuna }}</h2>
+    </div>
   </div>
-  <app-tarefa *ngFor="let tarefa of tarefas" [titulo]="tarefa.titulo" [descricao]="tarefa.descricao"></app-tarefa>
+  <div class="taks-container" cdkDropList [cdkDropListData]="tarefas" (cdkDropListDropped)="drop($event)">
+    <app-tarefa *ngFor="let tarefa of tarefas" [titulo]="tarefa.titulo" [descricao]="tarefa.descricao" [idTarefa]="tarefa.id"></app-tarefa>
+  </div>
 </div>
