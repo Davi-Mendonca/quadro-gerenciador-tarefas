@@ -52,14 +52,23 @@ export class GerenciadorTarefasService {
     return this.http.post<any>("http://localhost:3000/tarefas", data);
   }
 
-  movertarefa() {
-
+  atualizarColuna(idColuna: string, nome: string): Observable<any> {
+    let data = {
+      "nome":  nome
+    }
+    return this.http.put<any>('http://localhost:3000/colunas/'.concat(idColuna), data);
   }
 
-  atualizarTarefa(colunaEntrada: string, tarefa: string): Observable<any> {
+  deletarColuna(idColuna: string): Observable<any> {
+    return this.http.delete<any>('http://localhost:3000/colunas/'.concat(idColuna));
+  }
+
+  moverTarefa(colunaEntrada: string, tarefa: string): Observable<any> {
     let data = {
       idColuna: colunaEntrada
     }
-    return this.http.patch<any>("http://localhost:3000/tarefas/".concat(tarefa), data)
+    console.log('mover tarefa service data: ', data);
+    console.log('mover tarefa service id: ', tarefa)
+    return this.http.put<any>("http://localhost:3000/tarefas/".concat(tarefa), data)
   }
 }

@@ -26,10 +26,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 import { NovaTarefaModalComponent } from './componentes/modais/nova-tarefa-modal/nova-tarefa-modal.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { EditarNomeElementoModalComponent } from './componentes/modais/editar-nome-elemento-modal/editar-nome-elemento-modal.component';
+import { ConfirmacaoModalComponent } from './componentes/modais/confirmacao-modal/confirmacao-modal.component';
+import { ErroModalComponent } from './componentes/modais/erro-modal/erro-modal.component';
 
 
 @NgModule({
@@ -44,7 +48,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     SenhaIncorretaModalComponent,
     UsuarioInexistenteModalComponent,
     NomeNovoElementoModalComponent,
-    NovaTarefaModalComponent
+    NovaTarefaModalComponent,
+    EditarNomeElementoModalComponent,
+    ConfirmacaoModalComponent,
+    ErroModalComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +71,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    DragDropModule
+    DragDropModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

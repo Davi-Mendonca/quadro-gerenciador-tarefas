@@ -1,0 +1,10 @@
+<div mat-dialog-content>
+  <p>{{ data.textoModal }}</p>
+  <mat-form-field>
+    <input class="input-modal" matInput [(ngModel)]="data.nomeRecebido">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="button-modal">
+  <button mat-raised-button color="accent" class="m-3" (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" class="m-3" [mat-dialog-close]="data.nomeRecebido">Salvar</button>
+</div>

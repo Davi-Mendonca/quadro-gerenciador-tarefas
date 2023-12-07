@@ -5,10 +5,15 @@ import { Coluna } from 'src/app/models/Coluna.model';
 import { Tarefa } from 'src/app/models/Tarefa.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { GerenciadorTarefasService } from 'src/app/service/gerenciador-tarefas.service';
-import { Subject, catchError, takeUntil } from 'rxjs';
+import { Subject, catchError, takeUntil, firstValueFrom } from 'rxjs';
 import { AppState } from 'src/app/store/app.reducer';
 import { Store, select } from '@ngrx/store';
 import * as UsuarioActions from '../../store/action/usuarioLogado.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { EditarNomeElementoModalComponent } from '../modais/editar-nome-elemento-modal/editar-nome-elemento-modal.component';
+import { ConfirmacaoModalComponent } from '../modais/confirmacao-modal/confirmacao-modal.component';
+import { Quadro } from 'src/app/models/Quadro.model';
+import { ErroModalComponent } from '../modais/erro-modal/erro-modal.component';
 
 @Component({
   selector: 'app-coluna',
@@ -27,6 +32,7 @@ export class ColunaComponent implements OnDestroy, OnInit{
     private el: ElementRef,
     private renderer: Renderer2,
     private service: GerenciadorTarefasService,
+    private dialog: MatDialog,
     private store: Store<AppState>
   ) {}
 
@@ -59,7 +65,87 @@ export class ColunaComponent implements OnDestroy, OnInit{
     this.destroy$.complete();
   }
 
+  editarColuna(element: any): void {
+    console.log('elemento: ', element['idColuna']);
+
+    const dialogRef = this.dialog.open(EditarNomeElementoModalComponent, {
+      data: {
+        textoModal: "Nome da coluna",
+        nomeRecebido: this.nomeColuna
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          firstValueFrom(this.service.atualizarColuna(element['idColuna'], result))
+          .then(response => {
+            this.store.dispatch(UsuarioActions.renomearColuna({
+              quadroAtivo: this.usuarioLogado?.quadroAtivo ?? '',
+              idColuna: element['idColuna'],
+              nomeColuna: result
+            }));
+            console.log('state atualizado: ', this.usuarioLogado);
+          }).catch(error => {
+            //implementar modal de erro.
+            console.log('Erro ao atualizar coluna', error);
+          })
+        }
+      });
+  }
+
+  excluirColuna(element: any): void {
+    const dialogRef = this.dialog.open(ConfirmacaoModalComponent, {
+      data: {
+        titulo: 'Excluir coluna',
+        descricao: `Deseja realmente excluir a coluna '${this.nomeColuna}'?`
+      }
+    })
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          let colunaVazia;
+          this.usuarioLogado?.quadros?.map(quadro => {
+            if (quadro.id === this.usuarioLogado?.quadroAtivo) {
+              quadro.colunas?.map(coluna => {
+                if (coluna.id === element['idColuna']) {
+                  if (coluna.tarefas?.length) {
+                    colunaVazia = false
+                  } else {
+                    colunaVazia = true
+                  }
+                }
+                return;
+              })
+            }
+          })
+          if (colunaVazia) {
+            firstValueFrom(this.service.deletarColuna(element['idColuna']))
+              .then(response => {
+                this.store.dispatch(UsuarioActions.excluirColuna({
+                  quadroAtivo: this.usuarioLogado?.quadroAtivo ?? '',
+                  idColuna: element['idColuna']
+                }));
+              }).catch(error => {
+                // Implementar modal de erro ao ecluir
+                console.log('Erro ao excluir coluna: ', error);
+              })
+          } else {
+            const dialogRef = this.dialog.open(ErroModalComponent, {
+              data: {
+                titulo: 'Não é possível exluir a coluna',
+                descricao: `A coluna '${this.nomeColuna}' ainda possui tarefas. Mova ou exclua as tarefas antes de tentar excluir a coluna.`
+              }
+            })
+            console.log('A coluna ainda possui tarefas.\nNão é possível excluir.')
+          }
+        }
+      });
+  }
+
   drop(event: CdkDragDrop<any>) {
+    console.log('store antes de mover tarefa: ', this.usuarioLogado);
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -78,19 +164,12 @@ export class ColunaComponent implements OnDestroy, OnInit{
       let tarefa = event.item.element.nativeElement.getAttribute("id");
 
       if (colunaSaida && colunaEntrada && tarefa) {
-        this.service.atualizarTarefa(colunaEntrada, tarefa).pipe(
+        this.service.moverTarefa(colunaEntrada, tarefa).pipe(
           takeUntil(this.destroy$),
           catchError(error => {
             throw error;
           })
-        ).subscribe(response => {
-          this.store.dispatch(UsuarioActions.atualizarTarefa({
-            quadroAtivo: this.usuarioLogado?.quadroAtivo ?? '',
-            colunaSaida: colunaSaida ?? '',
-            colunaEntrada: colunaEntrada ?? '',
-            tarefa: tarefa ?? ''
-          }))
-        });
+        ).subscribe();
       }
     }
   }

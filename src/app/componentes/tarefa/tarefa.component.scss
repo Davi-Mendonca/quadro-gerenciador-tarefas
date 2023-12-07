@@ -32,3 +32,19 @@
 .tasks-container.cdk-drop-list-dragging .task:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+.card-action-buttons {
+  margin-left: auto;
+}
+
+.card-action-button {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  padding: 0;
+  min-width: unset;
+}
+
+.card-action-icon {
+  margin-right: unset
+}

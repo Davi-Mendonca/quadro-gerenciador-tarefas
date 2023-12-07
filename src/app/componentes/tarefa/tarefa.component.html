@@ -7,7 +7,13 @@
     <mat-divider></mat-divider>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button color="accent">LIKE</button>
-    <button mat-button color="accent">SHARE</button>
+    <div class="card-action-buttons">
+      <button class="card-action-button" mat-button color="accent">
+        <mat-icon class="card-action-icon" fontIcon="edit" color="primary"></mat-icon>
+      </button>
+      <button class="card-action-button" mat-button color="accent">
+        <mat-icon class="card-action-icon" fontIcon="delete" color="warn"></mat-icon>
+      </button>
+    </div>
   </mat-card-actions>
 </mat-card>

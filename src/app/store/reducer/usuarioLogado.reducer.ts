@@ -1,3 +1,4 @@
+// import { moverTarefa } from './../action/usuarioLogado.actions';
 import { createReducer, on } from '@ngrx/store';
 import { UsuarioLogado } from '../../models/UsuarioLogado.model';
 import * as UsuarioActions from '../action/usuarioLogado.actions';
@@ -45,8 +46,53 @@ const usuarioLogadoReducer = createReducer(
     return {...state, quadros: quadrosAtualizados};
   }),
 
-  // on(UsuarioActions.atualizarTarefa, (state, {quadroAtual, colunaSaida, colunaEntrada, tarefa}) => {
-  //   const quadrosAtualizados = state.quadros
+  on(UsuarioActions.renomearColuna, (state, {quadroAtivo, idColuna, nomeColuna}) => {
+    const quadrosAtualizados = state.quadros?.map(quadro => {
+      if(quadro.id === quadroAtivo) {
+        const colunasAtualizadas = quadro.colunas?.map(coluna => {
+          if (coluna.id === idColuna) {
+            return {...coluna, nome: nomeColuna};
+          }
+          return coluna;
+        });
+        return {...quadro, colunas: colunasAtualizadas};
+      }
+      return quadro;
+    });
+    return {...state, quadros: quadrosAtualizados};
+  }),
+
+  on(UsuarioActions.excluirColuna, (state, {quadroAtivo, idColuna}) => {
+    const quadrosAtualizados = state.quadros?.map(quadro => {
+      if(quadro.id === quadroAtivo) {
+        const colunasAtualizadas = quadro.colunas?.filter(coluna => coluna.id !== idColuna);
+        return {...quadro, colunas: colunasAtualizadas};
+      }
+      return quadro;
+    });
+    return {...state, quadros: quadrosAtualizados};
+  }),
+
+  // on(UsuarioActions.moverTarefa, (state, {quadroAtivo, colunaSaida, colunaEntrada, tarefa}) => {
+  //   let tarefaMovida: any;
+  //   const quadrosAtualizados = (state.quadros || []).map(quadro => {
+  //     if (quadro.id === quadroAtivo) {
+  //       const colunasAtualizadas = (quadro.colunas || []).map(coluna => {
+  //         if (coluna.id === colunaSaida) {
+  //           const tarefasAtualizadas = (coluna.tarefas || []).filter(t => t.id !== tarefa);
+  //           tarefaMovida = (coluna.tarefas || []).filter(t => t.id === tarefa);
+  //           return { ...coluna, tarefas: tarefasAtualizadas };
+  //         } else if (coluna.id === colunaEntrada) {
+  //           const tarefasAtualizadas = [...(coluna.tarefas || []), { ...tarefaMovida, idColuna: colunaEntrada }];
+  //           return { ...coluna, tarefas: tarefasAtualizadas };
+  //         }
+  //         return coluna;
+  //       });
+  //       return { ...quadro, colunas: colunasAtualizadas };
+  //     }
+  //     return quadro;
+  //   });
+  //   return { ...state, quadros: quadrosAtualizados };
   // })
 );
 

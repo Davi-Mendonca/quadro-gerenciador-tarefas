@@ -3,6 +3,14 @@
     <div class="column-title">
       <h2>{{ nomeColuna }}</h2>
     </div>
+    <div class="column-action-buttons">
+      <button [ngStyle]="{'margin-left': primeiroFilho ? '45px' : null}" class="column-action-button" mat-button color="accent" (click)="editarColuna(this)">
+        <mat-icon class="column-action-icon" fontIcon="edit" color="accent"></mat-icon>
+      </button>
+      <button *ngIf="!primeiroFilho" class="column-action-button" mat-button color="accent" (click)="excluirColuna(this)">
+        <mat-icon class="column-action-icon" fontIcon="delete" color="accent"></mat-icon>
+      </button>
+    </div>
   </div>
   <div class="taks-container" cdkDropList [cdkDropListData]="tarefas" (cdkDropListDropped)="drop($event)">
     <app-tarefa *ngFor="let tarefa of tarefas" [titulo]="tarefa.titulo" [descricao]="tarefa.descricao" [idTarefa]="tarefa.id"></app-tarefa>
