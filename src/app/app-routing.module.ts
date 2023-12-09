@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { PaginaInicialComponent } from './componentes/pagina-inicial/pagina-inicial.component';
 import { CadastrarUsuarioComponent } from './componentes/cadastrar-usuario/cadastrar-usuario.component';
 import { LoginComponent } from './componentes/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  {path: '', component: LoginComponent},
+  {path: 'home', component: PaginaInicialComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
-  {path: 'home', component: PaginaInicialComponent},
-  {path: 'cadastrar-usuario', component: CadastrarUsuarioComponent}
+  {path: 'cadastrar-usuario', component: CadastrarUsuarioComponent},
+  {path: '', component: LoginComponent},
 ];
 
 @NgModule({

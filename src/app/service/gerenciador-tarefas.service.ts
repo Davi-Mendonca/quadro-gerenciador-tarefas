@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../models/usuario.model';
 import { Observable, catchError, firstValueFrom, of, throwError } from 'rxjs';
+import { Tarefa } from '../models/Tarefa.model';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,15 @@ export class GerenciadorTarefasService {
 
   cadastrarTarefa(data: any): Observable<any> {
     return this.http.post<any>("http://localhost:3000/tarefas", data);
+  }
+
+  atualizarTarefa(idTarefa: string, data: Tarefa): Observable<any> {
+    console.log('service: ', data)
+    return this.http.put<any>('http://localhost:3000/tarefas/'.concat(idTarefa), data);
+  }
+
+  deletarTarefa(idTarefa: string): Observable<any> {
+    return this.http.delete<any>('http://localhost:3000/tarefas/'.concat(idTarefa));
   }
 
   atualizarColuna(idColuna: string, nome: string): Observable<any> {

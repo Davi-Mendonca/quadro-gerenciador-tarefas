@@ -6,6 +6,10 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state/app.state';
 import * as UsuarioActions from '../../store/action/usuarioLogado.actions';
 import { Tarefa } from 'src/app/models/Tarefa.model';
+import { GerenciadorTarefasService } from 'src/app/service/gerenciador-tarefas.service';
+import { firstValueFrom } from 'rxjs';
+import { ErroModalComponent } from '../modais/erro-modal/erro-modal.component';
+import { ConfirmacaoModalComponent } from '../modais/confirmacao-modal/confirmacao-modal.component';
 
 @Component({
   selector: 'app-tarefa',
@@ -23,7 +27,8 @@ export class TarefaComponent implements OnInit{
 
   constructor(
     private dialog: MatDialog,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private service: GerenciadorTarefasService
   ){}
 
   ngOnInit(): void {
@@ -34,8 +39,6 @@ export class TarefaComponent implements OnInit{
   }
 
   editarTarefa(element: any) {
-    console.log('tarefa: ', element['idTarefa']);
-
     let idTarefa = element['idTarefa'];
     let tarefaElement = document.getElementById(idTarefa);
     let idColuna = tarefaElement?.closest('.taks-container')?.getAttribute('data-idColuna');
@@ -54,12 +57,76 @@ export class TarefaComponent implements OnInit{
 
     const dialogRef = this.dialog.open(NovaTarefaModalComponent, {
       data: {
-        id: tarefa.id,
         titulo: tarefa.titulo,
         descricao: tarefa.descricao,
         dataParaConclusao: tarefa.dataParaConclusao,
         nivelPrioridade: tarefa.nivelPrioridade
       }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        const { titulo, descricao, dataParaConclusao, nivelPrioridade} = result.value;
+        const data = {
+          id: idTarefa,
+          titulo: titulo,
+          descricao: descricao,
+          dataParaConclusao: dataParaConclusao,
+          nivelPrioridade: nivelPrioridade
+        }
+        firstValueFrom(this.service.atualizarTarefa(idTarefa, data))
+          .then(response => {
+            this.store.dispatch(UsuarioActions.atualizarTarefa({
+              quadroAtivo: this.usuarioLogado?.quadroAtivo ?? '',
+              idColuna: idColuna ?? '',
+              data: data
+            }))
+            console.log('state: ', this.usuarioLogado)
+          }).catch(error => {
+            console.log('Erro ao atualizar tarefa.');
+            this.dialog.open(ErroModalComponent, {
+              data: {
+                titulo: 'Atualizar tarefa',
+                descricao: 'Algo deu errado, não foi possível atualizar a tarefa.'
+              }
+            })
+          })
+      };
     })
+  }
+
+  excluirTarefa(element: any) {
+    let idTarefa = element['idTarefa'];
+    let tarefaElement = document.getElementById(idTarefa);
+    let idColuna = tarefaElement?.closest('.taks-container')?.getAttribute('data-idColuna');
+
+    const dialogRef = this.dialog.open(ConfirmacaoModalComponent, {
+      data: {
+        titulo: 'Excluir tarefa',
+        descricao: 'Deseja realmente excluir a tarefa?'
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          firstValueFrom(this.service.deletarTarefa(idTarefa))
+            .then(response => {
+              this.store.dispatch(UsuarioActions.excluirTarefa({
+                quadroAtivo: this.usuarioLogado?.quadroAtivo ?? '',
+                idColuna: idColuna ?? '',
+                idTarefa: idTarefa
+              }))
+            }).catch(error => {
+              console.log('Erro ao excluir tarefa.', error);
+              this.dialog.open(ErroModalComponent, {
+                data: {
+                  titulo: 'Excluir tarefa',
+                  descricao: 'Algo deu errado, não foi possível excluir a tarefa.'
+                }
+              })
+            });
+        }
+      });
   }
 }

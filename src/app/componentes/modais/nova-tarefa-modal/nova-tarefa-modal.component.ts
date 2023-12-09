@@ -45,7 +45,10 @@ export class NovaTarefaModalComponent implements OnInit{
 
   onSubmit(formulario: NgForm) {
     if (formulario.valid) {
-      formulario.value.dataParaConclusao = formulario.value.dataParaConclusao.toISOString()
+      let dateObject = new Date(formulario.value.dataParaConclusao)
+
+      formulario.value.dataParaConclusao = dateObject.toISOString();
+
       this.dialogRef.close(formulario);
     }
   }

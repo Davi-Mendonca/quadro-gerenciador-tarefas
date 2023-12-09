@@ -19,3 +19,5 @@ export const renomearColuna = createAction('[UsuarioLogado] RenomearColuna', pro
 export const excluirColuna = createAction('[UsuarioLogado] ExcluirColuna', props<{quadroAtivo: string, idColuna: string}>());
 export const renomearQuadro = createAction('[UsuarioLogado] RenomearQuadro', props<{quadroAtivo: string, nome: string}>());
 export const excluirQuadro = createAction('[UsuarioLogado] ExcluirQuadro', props<{quadroAtivo: string}>());
+export const atualizarTarefa = createAction('[UsuarioLogado] AtualizarTarefa', props<{quadroAtivo: string, idColuna: string, data: Tarefa}>());
+export const excluirTarefa = createAction('[UsuarioLogado] ExcluirTarefa', props<{quadroAtivo: string, idColuna: string, idTarefa: string}>());
