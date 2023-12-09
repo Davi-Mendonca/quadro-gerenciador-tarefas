@@ -4,23 +4,21 @@
       <div class="form-box">
         <h3 class="h3 text-center"><b>Login</b></h3>
         <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)">
-
-
-              <mat-form-field class="form-input">
-                <mat-label>Email</mat-label>
-                <input type="email" matInput placeholder="Informe seu e-mail" name="email" ngModel #email="ngModel" required email>
-              </mat-form-field>
-              <mat-form-field class="form-input">
-                <mat-label>Senha</mat-label>
-                <input type="password" matInput placeholder="Informe sua senha" name="senha" ngModel required #senha="ngModel">
-              </mat-form-field>
-              <div class="text-center">
-                <div class="">
-                  <button mat-raised-button color="primary" type="submit">Entrar</button>
-                </div>
-              </div>
-
-
+          <mat-form-field class="form-input">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput placeholder="Informe seu e-mail" name="email" ngModel #email="ngModel" required email>
+            <mat-error *ngIf="email.invalid">Campo obrigatório.</mat-error>
+          </mat-form-field>
+          <mat-form-field class="form-input">
+            <mat-label>Senha</mat-label>
+            <input type="password" matInput placeholder="Informe sua senha" name="senha" ngModel required #senha="ngModel">
+            <mat-error *ngIf="senha.invalid">Campo obrigatório.</mat-error>
+          </mat-form-field>
+          <div class="text-center">
+            <div class="">
+              <button mat-raised-button color="primary" type="submit">Entrar</button>
+            </div>
+          </div>
         </form>
       </div>
     </div>

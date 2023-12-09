@@ -87,8 +87,13 @@ export class ColunaComponent implements OnDestroy, OnInit{
             }));
             console.log('state atualizado: ', this.usuarioLogado);
           }).catch(error => {
-            //implementar modal de erro.
             console.log('Erro ao atualizar coluna', error);
+            this.dialog.open(ErroModalComponent, {
+              data: {
+                titulo: 'Erro ao renomear coluna',
+                descricao: 'Algo deu errado, não foi possível renomear a coluna.'
+              }
+            })
           })
         }
       });
@@ -164,12 +169,23 @@ export class ColunaComponent implements OnDestroy, OnInit{
       let tarefa = event.item.element.nativeElement.getAttribute("id");
 
       if (colunaSaida && colunaEntrada && tarefa) {
-        this.service.moverTarefa(colunaEntrada, tarefa).pipe(
-          takeUntil(this.destroy$),
-          catchError(error => {
-            throw error;
+        firstValueFrom(this.service.moverTarefa(colunaEntrada, tarefa))
+          .then(Response => {
+            this.store.dispatch(UsuarioActions.moverTarefa({
+              quadroAtivo: this.usuarioLogado?.quadroAtivo ?? '',
+              colunaSaida: colunaSaida ?? '',
+              colunaEntrada: colunaEntrada ?? '',
+              tarefaMov: tarefa ?? ''
+            }))
+          }).catch(error => {
+            console.log('Erro ao mover tarefa: ', error);
+            this.dialog.open(ErroModalComponent, {
+              data: {
+                titulo: 'Erro ao mover tarefa',
+                descricao: 'Algo deu errado, não foi possível mover a tarefa.'
+              }
+            });
           })
-        ).subscribe();
       }
     }
   }

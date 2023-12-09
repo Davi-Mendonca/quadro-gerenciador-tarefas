@@ -7,19 +7,23 @@
       <form #formulario="ngForm" (ngSubmit)="onSubmit(formulario)">
         <mat-form-field class="form-input">
           <mat-label>Nome</mat-label>
-          <input type="text" matInput placeholder="Informe seu nome" name="nome" ngModel required>
+          <input type="text" matInput placeholder="Informe seu nome" name="nome" ngModel required #nome="ngModel">
+          <mat-error *ngIf="nome.invalid">Campo obrigatório.</mat-error>
         </mat-form-field>
         <mat-form-field class="form-input">
           <mat-label>Email</mat-label>
-          <input type="text" matInput placeholder="Informe seu e-mail" name="email" ngModel required>
+          <input type="text" matInput placeholder="Informe seu e-mail" name="email" ngModel required #email="ngModel">
+          <mat-error *ngIf="email.invalid">Campo obrigatório.</mat-error>
         </mat-form-field>
         <mat-form-field class="form-input">
           <mat-label>Telefone</mat-label>
-          <input type="text" matInput placeholder="Informe seu telefone" name="telefone" ngModel required>
+          <input type="text" matInput placeholder="Informe seu telefone" name="telefone" ngModel required #telefone="ngModel">
+          <mat-error *ngIf="telefone.invalid">Campo obrigatório.</mat-error>
         </mat-form-field>
         <mat-form-field class="form-input">
           <mat-label>Senha</mat-label>
-          <input type="password" matInput placeholder="Escolha uma senha" name="senha" ngModel required>
+          <input type="password" matInput placeholder="Escolha uma senha" name="senha" ngModel required #senha="ngModel">
+          <mat-error *ngIf="senha.invalid">Campo obrigatório.</mat-error>
         </mat-form-field>
         <div class="text-center">
           <div>

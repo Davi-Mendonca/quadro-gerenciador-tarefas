@@ -6,27 +6,30 @@
     <div class="form-box">
       <mat-form-field class="form-input">
         <mat-label>Título</mat-label>
-        <input type="text" matInput placeholder="Título para a tarefa" name="titulo" ngModel required>
+        <input type="text" matInput placeholder="Título para a tarefa" name="titulo" ngModel #titulo="ngModel" [(ngModel)]="tarefa.titulo" required>
+        <mat-error *ngIf="titulo.invalid">Campo obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field class="form-input">
         <mat-label>Descrição</mat-label>
-        <input type="text" matInput placeholder="Descrição para a tarefa" name="descricao" ngModel required>
+        <input type="text" matInput placeholder="Descrição para a tarefa" name="descricao" ngModel #descricao="ngModel" [(ngModel)]="tarefa.descricao" required>
+        <mat-error *ngIf="descricao.invalid">Campo obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field class="form-input">
         <label class="form-label" for="input-data-conclusao">Data para Conclusão</label>
-        <input matInput [matDatepicker]="picker" type="text" placeholder="dd/mm/aaaa" name="dataParaConclusao" ngModel required>
+        <input matInput [matDatepicker]="picker" type="text" placeholder="dd/mm/aaaa" name="dataParaConclusao" ngModel #dataParaConclusao="ngModel" [(ngModel)]="tarefa.dataParaConclusao" required>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker ></mat-datepicker>
+        <mat-error *ngIf="dataParaConclusao.invalid">Campo obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field class="form-input">
         <mat-label>Nível de prioridade</mat-label>
-        <mat-select [(ngModel)]="selectedValue" name="nivelPrioridade">
+        <mat-select [(ngModel)]="selectedValue" name="nivelPrioridade" ngModel>
             <mat-option *ngFor="let opt of options" [value]="opt.value">{{opt.viewValue}}</mat-option>
         </mat-select>
       </mat-form-field>
       <div class="align-buttons">
         <button mat-raised-button class="m-5" color="accent" (click)="onNoClick()">Cancelar</button>
-        <button mat-raised-button class="m-5" color="primary" type="submit" [mat-dialog-close]>Criar</button>
+        <button mat-raised-button class="m-5" color="primary" type="submit">Criar</button>
       </div>
     </div>
   </form>

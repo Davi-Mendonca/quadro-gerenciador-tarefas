@@ -1,8 +1,11 @@
 import { Usuario } from './../../models/usuario.model';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { first, firstValueFrom } from 'rxjs';
 import { GerenciadorTarefasService } from 'src/app/service/gerenciador-tarefas.service';
+import { ErroModalComponent } from '../modais/erro-modal/erro-modal.component';
 
 @Component({
   selector: 'app-cadastrar-usuario',
@@ -13,7 +16,8 @@ export class CadastrarUsuarioComponent implements OnInit{
 
   constructor(
     private service: GerenciadorTarefasService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ){}
 
   ngOnInit(){}
@@ -27,9 +31,30 @@ export class CadastrarUsuarioComponent implements OnInit{
     );
 
     console.log('cadastrar-usuario.component: ', usuario)
-    let result = this.service.cadastrarUsuario(usuario);
+    this.service.cadastrarUsuario(usuario)
+      .then(response => {
+        console.log('response: ', response)
+        console.log('Cadastro realizado com sucesso!')
+      }).catch(error => {
+        if (error.status == 409) {
+          this.dialog.open(ErroModalComponent, {
+            data: {
+              titulo: 'Error ao cadastrar',
+              descricao: 'O endereço de e-mail já está em uso'
+            }
+          });
+          console.log(error.error.message)
+        } else {
+          this.dialog.open(ErroModalComponent, {
+            data: {
+              titulo: 'Error ao cadastrar',
+              descricao: 'Algo deu errado, tente novamente mais tarde.'
+            }
+          });
+          console.log('Erro: ', error);
+        };
+      });
 
-    console.log('response: ', result)
   }
 
   telaLogin() {

@@ -6,14 +6,16 @@
       </div>
       <div class="menu-bar-buttons">
         <div class="main_action_button">
-          <button mat-raised-button color="primary" class="action-button" (click)="novoQuadro()">Novo quadro</button>
+          <button mat-raised-button color="primary" class="action-button novo-quadro-button" (click)="novoQuadro()">Novo quadro</button>
+          <button mat-raised-button color="primary" class="action-button" (click)="editarQuadro()">Editar</button>
+          <button mat-raised-button color="primary" class="action-button" (click)="excluirQuadro()">Excluir</button>
         </div>
       </div>
     </div>
     <mat-toolbar class="mat-toolbar" *ngIf="usuarioLogado?.quadros?.length">
       <div class="quadro-buttons">
-        <button mat-raised-button color="primary" class="quadro-action-button action-button" (click)="novaColuna()">Nova coluna</button>
-        <button mat-raised-button color="primary" class="quadro-action-button action-button" (click)="novaTarefa()">Nova tarefa</button>
+        <button mat-raised-button color="primary" class="action-button" (click)="novaColuna()">Nova coluna</button>
+        <button mat-raised-button color="primary" class="action-button" (click)="novaTarefa()">Nova tarefa</button>
       </div>
     </mat-toolbar>
     <app-quadro [abaAtiva]="abaAtiva"></app-quadro>

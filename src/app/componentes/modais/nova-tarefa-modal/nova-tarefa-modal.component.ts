@@ -1,13 +1,9 @@
-import { state } from '@angular/animations';
-import { AppState } from './../../../store/state/app.state';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Store, select } from '@ngrx/store';
+import { select } from '@ngrx/store';
 import { Tarefa } from 'src/app/models/Tarefa.model';
-import { UsuarioLogado } from 'src/app/models/UsuarioLogado.model';
-import { GerenciadorTarefasService } from 'src/app/service/gerenciador-tarefas.service';
-import * as UsuarioActions from '../../../store/action/usuarioLogado.actions';
 import { DateAdapter } from '@angular/material/core';
+import { NgForm } from '@angular/forms';
 
 interface select {
   value: number;
@@ -19,8 +15,8 @@ interface select {
   templateUrl: './nova-tarefa-modal.component.html',
   styleUrls: ['./nova-tarefa-modal.component.scss']
 })
-export class NovaTarefaModalComponent{
-  selectedValue: number = 1
+export class NovaTarefaModalComponent implements OnInit{
+  selectedValue: number | undefined
 
   options: select[] = [
     {value: 1, viewValue: '1'},
@@ -32,18 +28,25 @@ export class NovaTarefaModalComponent{
 
   constructor(
     public dialogRef: MatDialogRef<NovaTarefaModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public formulario: Tarefa,
+    @Inject(MAT_DIALOG_DATA) public tarefa: Tarefa,
     private dateAdapter: DateAdapter<Date>
   ) {
     this.dateAdapter.setLocale('en-GB');
+  }
+
+  ngOnInit(): void {
+    console.log('tarefa: ', this.tarefa)
+    this.selectedValue = this.tarefa.nivelPrioridade;
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onSubmit(formulario: any) {
-    formulario.value.dataParaConclusao = formulario.value.dataParaConclusao.toISOString()
-    this.dialogRef.close(formulario);
+  onSubmit(formulario: NgForm) {
+    if (formulario.valid) {
+      formulario.value.dataParaConclusao = formulario.value.dataParaConclusao.toISOString()
+      this.dialogRef.close(formulario);
+    }
   }
 }

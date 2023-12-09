@@ -7,6 +7,8 @@ import { UsuarioInexistenteModalComponent } from '../modais/usuario-inexistente-
 import { AppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import * as UsuarioActions from '../../store/action/usuarioLogado.actions'
+import { ErroModalComponent } from '../modais/erro-modal/erro-modal.component';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +25,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
 
-  async onSubmit(formulario: any) {
+  async onSubmit(formulario: NgForm) {
+    if (formulario.invalid) {
+      return;
+    }
     return await this.service
       .login(formulario.value.email, formulario.value.senha)
       .then((response) => {

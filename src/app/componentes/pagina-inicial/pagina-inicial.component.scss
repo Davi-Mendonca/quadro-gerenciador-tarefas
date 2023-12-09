@@ -7,7 +7,6 @@ body {
 button {
   // font-size: small;
   white-space: nowrap;
-  margin: 0 !important;
 }
 
 .menu-bar {
@@ -69,12 +68,14 @@ button {
   padding: 0 50px;
 
   .quadro-buttons {
-    display: flex;width: 250px;
+    display: flex;
+    width: 260px;
     margin-left: auto;
-    justify-content: space-between;
   }
 }
 
 .action-button {
   width: 120px;
+  margin: 0px 5px;
 }
+

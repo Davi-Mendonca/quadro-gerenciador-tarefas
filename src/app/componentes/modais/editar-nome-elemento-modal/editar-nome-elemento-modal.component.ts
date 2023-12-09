@@ -21,4 +21,10 @@ export class EditarNomeElementoModalComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  onSubmit(nome: any) {
+    if (nome) {
+      this.dialogRef.close(nome);
+    }
+  }
 }

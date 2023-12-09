@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../models/usuario.model';
-import { Observable, catchError, firstValueFrom, throwError } from 'rxjs';
+import { Observable, catchError, firstValueFrom, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +16,10 @@ export class GerenciadorTarefasService {
     })
   }
 
-  async cadastrarUsuario(data: Usuario): Promise<any> {
+  cadastrarUsuario(data: Usuario): Promise<any> {
     console.log('Service: ', data)
 
-    return await firstValueFrom(this.http.post<any>("http://localhost:3000/cadastro", data))
-      .then((response) => {
-        return {id: response.id, nome: response.nome}
-      }).catch((error) => {
-        throw error;
-      })
+    return firstValueFrom(this.http.post<any>("http://localhost:3000/cadastro", data));
   }
 
   async login(email: string, senha: string) {
@@ -42,6 +37,17 @@ export class GerenciadorTarefasService {
 
   cadastrarQuadro(data: any): Observable<any> {
     return this.http.post<any>("http://localhost:3000/quadros", data);
+  }
+
+  renomearQuadro(idQuadro: string, nome: string): Observable<any> {
+    let data = {
+      nome: nome
+    }
+    return this.http.put<any>("http://localhost:3000/quadros/".concat(idQuadro), data);
+  }
+
+  apagarQuadro(id: string): Observable<any> {
+    return this.http.delete<any>("http://localhost:3000/quadros/".concat(id));
   }
 
   cadastrarColuna(data: any): Observable<any> {

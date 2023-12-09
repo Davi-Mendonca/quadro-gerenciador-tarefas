@@ -73,27 +73,53 @@ const usuarioLogadoReducer = createReducer(
     return {...state, quadros: quadrosAtualizados};
   }),
 
-  // on(UsuarioActions.moverTarefa, (state, {quadroAtivo, colunaSaida, colunaEntrada, tarefa}) => {
-  //   let tarefaMovida: any;
-  //   const quadrosAtualizados = (state.quadros || []).map(quadro => {
-  //     if (quadro.id === quadroAtivo) {
-  //       const colunasAtualizadas = (quadro.colunas || []).map(coluna => {
-  //         if (coluna.id === colunaSaida) {
-  //           const tarefasAtualizadas = (coluna.tarefas || []).filter(t => t.id !== tarefa);
-  //           tarefaMovida = (coluna.tarefas || []).filter(t => t.id === tarefa);
-  //           return { ...coluna, tarefas: tarefasAtualizadas };
-  //         } else if (coluna.id === colunaEntrada) {
-  //           const tarefasAtualizadas = [...(coluna.tarefas || []), { ...tarefaMovida, idColuna: colunaEntrada }];
-  //           return { ...coluna, tarefas: tarefasAtualizadas };
-  //         }
-  //         return coluna;
-  //       });
-  //       return { ...quadro, colunas: colunasAtualizadas };
-  //     }
-  //     return quadro;
-  //   });
-  //   return { ...state, quadros: quadrosAtualizados };
-  // })
+  on(UsuarioActions.renomearQuadro, (state, {quadroAtivo, nome}) => {
+    const quadrosAtualizados = state.quadros?.map(quadro => {
+      if (quadro.id === quadroAtivo) {
+        return {...quadro, nome: nome};
+      }
+      return quadro;
+    });
+    return {...state, quadros: quadrosAtualizados};
+  }),
+
+  on(UsuarioActions.excluirQuadro, (state, {quadroAtivo}) => {
+    const quadrosAtualizados = state.quadros?.filter(quadro => quadro.id !== quadroAtivo);
+    return {...state, quadros: quadrosAtualizados};
+  }),
+
+  on(UsuarioActions.moverTarefa, (state, {quadroAtivo, colunaSaida, colunaEntrada, tarefaMov}) => {
+    let tarefaMovida: any;
+    state.quadros?.map(quadro => {
+      if (quadro.id === quadroAtivo) {
+        quadro.colunas?.map(coluna => {
+          if (coluna.id === colunaSaida) {
+            tarefaMovida = coluna.tarefas?.find(tarefa => tarefa.id === tarefaMov)
+          }
+        })
+      }
+    })
+    const quadrosAtualizados = (state.quadros || []).map(quadro => {
+      if (quadro.id === quadroAtivo) {
+        const colunasAtualizadas = (quadro.colunas || []).map(coluna => {
+          if (coluna.id === colunaSaida) {
+            const tarefasAtualizadas = (coluna.tarefas || []).filter(t => t.id !== tarefaMov);
+            console.log('Coluna de saída: ', tarefasAtualizadas);
+            return { ...coluna, tarefas: tarefasAtualizadas };
+          } else if (coluna.id === colunaEntrada) {
+            console.log('Tarefa movida: ', tarefaMovida)
+            const tarefasAtualizadas = [...(coluna.tarefas || []), { ...tarefaMovida, idColuna: colunaEntrada }];
+            console.log('Coluna de entrada', tarefasAtualizadas);
+            return { ...coluna, tarefas: tarefasAtualizadas };
+          }
+          return coluna;
+        });
+        return { ...quadro, colunas: colunasAtualizadas };
+      }
+      return quadro;
+    });
+    return { ...state, quadros: quadrosAtualizados };
+  })
 );
 
 export function usuarioReducer(state: any, action: any) {

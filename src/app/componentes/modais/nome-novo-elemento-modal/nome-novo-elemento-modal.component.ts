@@ -16,10 +16,15 @@ export class NomeNovoElementoModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data)
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onSubmit(value: any) {
+    if (value) {
+      this.dialogRef.close(value);
+    }
   }
 }

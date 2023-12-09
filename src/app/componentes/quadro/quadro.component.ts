@@ -5,6 +5,7 @@ import { AppState } from 'src/app/store/app.reducer';
 import { GerenciadorTarefasService } from 'src/app/service/gerenciador-tarefas.service';
 import { MatDialog } from '@angular/material/dialog';
 import * as UsuarioActions from '../../store/action/usuarioLogado.actions'
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-quadro',
@@ -31,7 +32,7 @@ export class QuadroComponent implements OnInit {
   }
 
   onTabChange() {
-    let abaAtiva = document.querySelectorAll('.mat-mdc-tab-body-wrapper .board')[0].getAttribute('id');
+    let abaAtiva = document.querySelector('.mat-mdc-tab-body-active .board')?.getAttribute('id');
     if (abaAtiva) {
       this.store.dispatch(UsuarioActions.quadroAtivo({quadroAtivo: abaAtiva}));
     }

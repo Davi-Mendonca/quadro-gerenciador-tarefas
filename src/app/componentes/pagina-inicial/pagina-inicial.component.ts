@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { GerenciadorTarefasService } from 'src/app/service/gerenciador-tarefas.service';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state/app.state';
@@ -10,6 +10,9 @@ import * as UsuarioActions from '../../store/action/usuarioLogado.actions';
 import { Coluna } from 'src/app/models/Coluna.model';
 import { NovaTarefaModalComponent } from '../modais/nova-tarefa-modal/nova-tarefa-modal.component';
 import { Tarefa } from 'src/app/models/Tarefa.model';
+import { catchError, firstValueFrom } from 'rxjs';
+import { ErroModalComponent } from '../modais/erro-modal/erro-modal.component';
+import { ConfirmacaoModalComponent } from '../modais/confirmacao-modal/confirmacao-modal.component';
 
 @Component({
   selector: 'app-pagina-inicial',
@@ -27,7 +30,6 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
     private service: GerenciadorTarefasService,
     private store: Store<AppState>,
     private dialog: MatDialog,
-    private tabs: MatTabsModule
   ) { }
 
   ngAfterViewInit(): void {
@@ -37,13 +39,12 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.store.pipe(select(state => state.usuarioLogado))
       .subscribe((usuario) => {
-        // console.log('Usuario atualizado:', usuario);
         this.usuarioLogado = usuario;
       })
   }
 
   pegarAbaAtiva() {
-    return document.querySelectorAll('.mat-mdc-tab-body-wrapper .board')[0].getAttribute('id');
+    return document.querySelector('.mat-mdc-tab-body-active .board')?.getAttribute('id');
   }
 
   pegarPrimeiroNome() {
@@ -61,12 +62,12 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.nomeNovoQuadro = result;
-        this.service.cadastrarQuadro(
+        firstValueFrom(this.service.cadastrarQuadro(
           {
             nome: result,
             idUsuario: this.usuarioLogado?.id
           }
-        ).subscribe((response) => {
+        )).then((response) => {
           console.log('Novo quadro: ', response)
           this.store.dispatch(UsuarioActions.novoQuadro({ quadro: response }));
           this.store.pipe(select(state => state.usuarioLogado))
@@ -74,7 +75,73 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
               console.log('Criou novo quadro: ', usuario);
               this.usuarioLogado = usuario;
             })
-        })
+        }).catch(error => {
+          this.dialog.open(ErroModalComponent, {
+            data: {
+              titulo: 'Erro ao criar quadro',
+              descricao: 'Algo deu errado, não foi possível criar um quadro'
+            }
+          });
+          console.log('Erro ao criar quadro: ', error);
+        });
+      }
+    });
+  }
+
+  editarQuadro() {
+    const dialogRef = this.dialog.open(NomeNovoElementoModalComponent, {
+      data: {
+        textoModal: "Nome do quadro",
+        nomeRecebido: this.nomeNovoQuadro
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        firstValueFrom(this.service.renomearQuadro(this.usuarioLogado?.quadroAtivo ?? '', result))
+          .then(response => {
+            this.store.dispatch(UsuarioActions.renomearQuadro({
+              quadroAtivo: this.usuarioLogado?.quadroAtivo ?? '',
+              nome: result
+            }))
+          }).catch(error => {
+            console.log('Erro ao renomear quadro: ', error);
+            this.dialog.open(ErroModalComponent, {
+              data: {
+                titulo: 'Erro ao renomear quadro',
+                descricao: 'Algo deu errado. Não foi possível renomer o quadro.'
+              }
+            })
+          })
+      }
+    })
+  }
+
+  excluirQuadro() {
+    const dialogRef = this.dialog.open(ConfirmacaoModalComponent, {
+      data: {
+        titulo: 'Excluir quadro',
+        descricao: 'Deseja realmente excluir este quadro? Todas as tarefas serão perdidas.'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        firstValueFrom(this.service.apagarQuadro(this.usuarioLogado?.quadroAtivo ?? ''))
+          .then(response => {
+            console.log('Quadro excluido com sucesso.', response);
+            this.store.dispatch(UsuarioActions.excluirQuadro({
+              quadroAtivo: this.usuarioLogado?.quadroAtivo ?? ''
+            }));
+          }).catch(error => {
+            console.log('Erro ao excluir quadro: ', error);
+            this.dialog.open(ErroModalComponent, {
+              data: {
+                titulo: 'Excluir quadro',
+                descricao: 'Algo deu errado, não foi possível excluir o quadro.'
+              }
+            })
+          })
       }
     });
   }
@@ -101,6 +168,17 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
             nome: result,
             idQuadro: this.abaAtiva
           }
+        ).pipe(
+          catchError(error => {
+            console.log('Erro ao criar coluna: ', error);
+            this.dialog.open(ErroModalComponent, {
+              data: {
+                titulo: 'Erro ao criar coluna',
+                descricao: 'Algo deu errado, não foi possível criar a coluna.'
+              }
+            });
+            throw error;
+          })
         ).subscribe((response: Coluna) => {
           this.store.dispatch(UsuarioActions.novaColuna({
             idQuadro: this.abaAtiva,
@@ -153,7 +231,17 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
 
         console.log('cadastrar tarefa: ', tarefa)
         let result = this.service.cadastrarTarefa(tarefa)
-          .subscribe(response => {
+          .pipe(
+            catchError(error => {
+              this.dialog.open(ErroModalComponent, {
+                data: {
+                  titulo: 'Erro ao criar tarefa',
+                  descricao: 'Algo deu errado, não foi possível criar a tarefa.'
+                }
+              });
+              throw error;
+            })
+          ).subscribe(response => {
             this.store.dispatch(UsuarioActions.novaTarefa({
               idQuadro: this.usuarioLogado?.quadroAtivo ?? '',
               idColuna: idColuna ?? '',
