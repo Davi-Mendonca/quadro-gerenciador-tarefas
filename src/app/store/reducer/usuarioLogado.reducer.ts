@@ -119,16 +119,13 @@ const usuarioLogadoReducer = createReducer(
   }),
 
   on(UsuarioActions.atualizarTarefa, (state, {quadroAtivo, idColuna, data}) => {
-    console.log('reducer: ', data)
     const {titulo, descricao, dataParaConclusao, nivelPrioridade} = data;
     const quadrosAtualizados = state.quadros?.map(quadro => {
       if (quadro.id === quadroAtivo) {
         const colunasAtualizadas = quadro.colunas?.map(coluna => {
           if (coluna.id === idColuna) {
-            console.log('reducer idColuna: ', idColuna)
             const tarefasAtualizadas = coluna.tarefas?.map(tarefa => {
               if (tarefa.id === data.id) {
-                console.log('reducer descricao: ', descricao)
                 return {...tarefa,
                   titulo: titulo,
                   descricao: descricao,
@@ -138,7 +135,6 @@ const usuarioLogadoReducer = createReducer(
               }
               return tarefa;
             });
-            console.log('reducer tarefasAtualizadas: ', tarefasAtualizadas)
             return {...coluna, tarefas: tarefasAtualizadas}
           }
           return coluna;

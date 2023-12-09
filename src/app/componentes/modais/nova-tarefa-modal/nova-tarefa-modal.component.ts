@@ -35,7 +35,6 @@ export class NovaTarefaModalComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log('tarefa: ', this.tarefa)
     this.selectedValue = this.tarefa.nivelPrioridade;
   }
 

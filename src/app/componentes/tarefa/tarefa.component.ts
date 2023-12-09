@@ -81,7 +81,6 @@ export class TarefaComponent implements OnInit{
               idColuna: idColuna ?? '',
               data: data
             }))
-            console.log('state: ', this.usuarioLogado)
           }).catch(error => {
             console.log('Erro ao atualizar tarefa.');
             this.dialog.open(ErroModalComponent, {

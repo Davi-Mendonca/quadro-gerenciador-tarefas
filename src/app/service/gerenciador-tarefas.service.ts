@@ -18,8 +18,6 @@ export class GerenciadorTarefasService {
   }
 
   cadastrarUsuario(data: Usuario): Promise<any> {
-    console.log('Service: ', data)
-
     return firstValueFrom(this.http.post<any>("http://localhost:3000/cadastro", data));
   }
 
@@ -60,7 +58,6 @@ export class GerenciadorTarefasService {
   }
 
   atualizarTarefa(idTarefa: string, data: Tarefa): Observable<any> {
-    console.log('service: ', data)
     return this.http.put<any>('http://localhost:3000/tarefas/'.concat(idTarefa), data);
   }
 
@@ -83,8 +80,6 @@ export class GerenciadorTarefasService {
     let data = {
       idColuna: colunaEntrada
     }
-    console.log('mover tarefa service data: ', data);
-    console.log('mover tarefa service id: ', tarefa)
     return this.http.put<any>("http://localhost:3000/tarefas/".concat(tarefa), data)
   }
 }

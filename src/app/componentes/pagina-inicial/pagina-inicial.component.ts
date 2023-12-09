@@ -13,6 +13,7 @@ import { Tarefa } from 'src/app/models/Tarefa.model';
 import { catchError, firstValueFrom } from 'rxjs';
 import { ErroModalComponent } from '../modais/erro-modal/erro-modal.component';
 import { ConfirmacaoModalComponent } from '../modais/confirmacao-modal/confirmacao-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pagina-inicial',
@@ -30,6 +31,7 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
     private service: GerenciadorTarefasService,
     private store: Store<AppState>,
     private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngAfterViewInit(): void {
@@ -41,6 +43,11 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
       .subscribe((usuario) => {
         this.usuarioLogado = usuario;
       })
+  }
+
+  logout() {
+    this.store.dispatch(UsuarioActions.logout());
+    this.router.navigate(["/login"]);
   }
 
   pegarAbaAtiva() {
@@ -68,7 +75,6 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
             idUsuario: this.usuarioLogado?.id
           }
         )).then((response) => {
-          console.log('Novo quadro: ', response)
           this.store.dispatch(UsuarioActions.novoQuadro({ quadro: response }));
           this.store.pipe(select(state => state.usuarioLogado))
             .subscribe((usuario) => {
@@ -162,7 +168,6 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.nomeNovaColuna = result;
-        console.log("aba ativa: ", this.abaAtiva)
         this.service.cadastrarColuna(
           {
             nome: result,
@@ -205,18 +210,11 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(formulario => {
       if (formulario) {
-        console.log('Formulário: ', {
-          titulo: formulario.value.titulo,
-          descricao: formulario.value.descricao,
-          dataParaConclusao: formulario.value.dataParaConclusao,
-          nivelPrioridade: formulario.value.nivelPrioridade
-        })
         let idColuna: string | undefined;
 
         const quadroAtivo = this.usuarioLogado?.quadros?.find(
           quadro => quadro.id === this.usuarioLogado?.quadroAtivo
         );
-        console.log('Quadro ativo: ', this.usuarioLogado?.quadroAtivo)
         if (quadroAtivo && quadroAtivo.colunas?.length) {
           idColuna = quadroAtivo.colunas[0].id;
         }
@@ -248,8 +246,6 @@ export class PaginaInicialComponent implements OnInit, AfterViewInit {
               tarefa: response
             }));
           });
-
-        console.log('result: ', result)
       }
     });
   }

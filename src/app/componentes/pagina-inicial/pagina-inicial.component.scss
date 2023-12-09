@@ -79,3 +79,20 @@ button {
   margin: 0px 5px;
 }
 
+.logout-button {
+  position: absolute;
+  margin-left: auto;
+  min-width: unset;
+  width: 15px !important;
+  height: 36px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: transparent;
+  box-shadow: none;
+  right: 20px;
+
+  .logout-icon {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

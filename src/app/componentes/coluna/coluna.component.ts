@@ -150,7 +150,6 @@ export class ColunaComponent implements OnDestroy, OnInit{
   }
 
   drop(event: CdkDragDrop<any>) {
-    console.log('store antes de mover tarefa: ', this.usuarioLogado);
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
