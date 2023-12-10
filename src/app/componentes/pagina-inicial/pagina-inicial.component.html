@@ -7,8 +7,8 @@
       <div class="menu-bar-buttons">
         <div class="main_action_button">
           <button mat-raised-button color="primary" class="action-button novo-quadro-button" (click)="novoQuadro()">Novo quadro</button>
-          <button mat-raised-button color="primary" class="action-button" (click)="editarQuadro()">Editar</button>
-          <button mat-raised-button color="primary" class="action-button" (click)="excluirQuadro()">Excluir</button>
+          <button *ngIf="usuarioLogado?.quadros?.length != 0" mat-raised-button color="primary" class="action-button" (click)="editarQuadro()">Editar</button>
+          <button *ngIf="usuarioLogado?.quadros?.length != 0" mat-raised-button color="primary" class="action-button" (click)="excluirQuadro()">Excluir</button>
         </div>
         <button mat-raised-button color="primary" class="logout-button" (click)="logout()">
           <mat-icon class="logout-icon" fontIcon="logout" color="primary"></mat-icon>
